@@ -12,10 +12,11 @@ const GROUP_LABELS: Record<string, string> = {
 };
 
 export default async function AdminDashboardPage() {
-  const [postCount, imageCount, unreadCount] = await Promise.all([
+  const [postCount, imageCount, unreadCount, subscriberCount] = await Promise.all([
     db.post.count(),
     db.galleryImage.count(),
     db.contactMessage.count({ where: { read: false } }),
+    db.newsletterSubscriber.count(),
   ]);
 
   const groups = new Map<string, typeof CONTENT_SECTIONS>();
@@ -32,10 +33,11 @@ export default async function AdminDashboardPage() {
         <p className="mt-1 text-sm text-indigo-900/60">Everything below is live on the site as soon as you save it.</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="News & events posts" value={postCount} href="/admin/news" />
         <StatCard label="Gallery photos" value={imageCount} href="/admin/gallery" />
         <StatCard label="Unread messages" value={unreadCount} href="/admin/messages" highlight={unreadCount > 0} />
+        <StatCard label="Newsletter subscribers" value={subscriberCount} href="/admin/subscribers" />
       </div>
 
       <div className="space-y-8">
@@ -49,13 +51,15 @@ export default async function AdminDashboardPage() {
                 <Link
                   key={section.key}
                   href={`/admin/content/${section.key}`}
-                  className="group flex items-center justify-between rounded-xl border border-stone-200 bg-stone-50 px-5 py-4 hover:border-indigo-500"
+                  className="group flex items-center justify-between rounded-2xl border border-stone-200 bg-white px-5 py-4 shadow-sm transition-colors hover:border-gold-500"
                 >
                   <div>
                     <p className="font-semibold text-indigo-950">{section.label}</p>
                     <p className="mt-0.5 text-sm text-indigo-900/60">{section.description}</p>
                   </div>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-indigo-900/40 group-hover:text-indigo-950" />
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-100 text-indigo-900/40 group-hover:bg-gold-500/10 group-hover:text-gold-600">
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
                 </Link>
               ))}
             </div>
@@ -80,7 +84,7 @@ function StatCard({
   return (
     <Link
       href={href}
-      className="block rounded-2xl border border-stone-200 bg-stone-50 p-5 hover:border-indigo-500"
+      className="block rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-colors hover:border-gold-500"
     >
       <p className={`font-display text-3xl font-extrabold ${highlight ? "text-clay-600" : "text-indigo-950"}`}>
         {value}

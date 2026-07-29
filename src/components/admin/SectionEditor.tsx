@@ -64,7 +64,7 @@ export default function SectionEditor({
         <button
           type="submit"
           disabled={saving}
-          className="inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-indigo-950 transition-colors hover:bg-gold-400 disabled:opacity-60"
+          className="inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gold-600 disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save changes"}
         </button>

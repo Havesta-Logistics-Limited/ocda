@@ -35,7 +35,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={5}
-          className="mt-1.5 w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-indigo-950 outline-none focus:border-indigo-500"
+          className="mt-1.5 w-full rounded-xl border border-stone-200 bg-stone-100 px-4 py-3 text-indigo-950 outline-none focus:border-indigo-500"
         />
       </div>
 
@@ -44,7 +44,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-indigo-950 transition-colors hover:bg-gold-400 disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-gold-500/25 transition-colors hover:bg-gold-600 disabled:opacity-60"
       >
         {pending ? "Sending…" : "Send message"}
       </button>
@@ -76,7 +76,7 @@ function Field({
         type={type}
         autoComplete={autoComplete}
         required={required}
-        className="mt-1.5 w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-indigo-950 outline-none focus:border-indigo-500"
+        className="mt-1.5 w-full rounded-xl border border-stone-200 bg-stone-100 px-4 py-3 text-indigo-950 outline-none focus:border-indigo-500"
       />
     </div>
   );

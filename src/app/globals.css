@@ -1,31 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  /* Stone — cool, warm-adjacent neutral. Deliberately not the cream/oatmeal
-     (#F4F1EA-ish) background that's become an AI-design default. */
-  --color-stone-50: #f4f5f7;
-  --color-stone-100: #e9ebee;
-  --color-stone-200: #d6d9de;
+  /* Token names kept from the first pass (stone/indigo/gold/clay/moss) so
+     component classNames didn't need a rename — values now follow the
+     bright, photo-forward green template direction instead. */
 
-  /* Indigo — the institutional / dark color, inspired by adire (indigo
-     resist-dyed cloth). A hue-driven dark, not near-black. */
-  --color-indigo-950: #131b32;
-  --color-indigo-900: #1b2645;
-  --color-indigo-800: #202b52;
-  --color-indigo-700: #2c3a68;
-  --color-indigo-500: #4d5e97;
+  /* Stone — page background / card surfaces / borders. Off-white, not
+     stark white, with a faint green tint on the panel tones. */
+  --color-stone-50: #fbfbf7;
+  --color-stone-100: #f1f5e9;
+  --color-stone-200: #e1e9d3;
 
-  /* Millet gold — primary accent / calls to action. */
-  --color-gold-500: #d9a23d;
-  --color-gold-400: #e6b75f;
-  --color-gold-600: #b6812c;
+  /* Indigo (name kept) — now the deep forest green: heading/body ink on
+     light backgrounds, and the fill for dark sections (nav-on-scroll,
+     footer, CTA bands). Dark enough to double as near-black text. */
+  --color-indigo-950: #16220e;
+  --color-indigo-900: #1e3013;
+  --color-indigo-800: #294019;
+  --color-indigo-700: #375322;
+  --color-indigo-500: #547c34;
 
-  /* Laterite — secondary accent, used sparingly (tags, event markers). */
-  --color-clay-500: #bc5b37;
-  --color-clay-600: #9c4a2c;
+  /* Gold (name kept) — now the primary leaf-green accent: buttons, stat
+     tiles, links, active states. */
+  --color-gold-400: #8dc24c;
+  --color-gold-500: #6fa331;
+  --color-gold-600: #578328;
 
-  /* Utility green — admin UI only (published states etc.), never brand. */
-  --color-moss-500: #4c7a5e;
+  /* Clay (name kept) — warm rust-orange counterpoint to all the green:
+     tags, event badges, delete/error states. */
+  --color-clay-500: #d2491f;
+  --color-clay-600: #a83716;
+
+  /* Moss (name kept) — a separate green-teal for admin utility states
+     (saved/published), kept distinct from the brand green above. */
+  --color-moss-500: #2f9e6b;
 
   --background: var(--color-stone-50);
   --foreground: var(--color-indigo-950);
@@ -54,8 +62,8 @@
 
   --color-moss-500: var(--color-moss-500);
 
-  --font-display: var(--font-bricolage);
-  --font-sans: var(--font-public-sans);
+  --font-display: var(--font-jakarta);
+  --font-sans: var(--font-jakarta);
 }
 
 body {
@@ -66,7 +74,7 @@ body {
 
 ::selection {
   background: var(--color-gold-500);
-  color: var(--color-indigo-950);
+  color: white;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -78,19 +86,6 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Woven-lattice signature texture — abstracted from adire / aso-oke
-   geometric cloth patterns. Used as a low-opacity background layer. */
-.woven-pattern {
-  background-image: repeating-linear-gradient(
-      45deg,
-      currentColor 0,
-      currentColor 1px,
-      transparent 1px,
-      transparent 14px
-    ),
-    repeating-linear-gradient(-45deg, currentColor 0, currentColor 1px, transparent 1px, transparent 14px);
 }
 
 .reveal {
@@ -109,4 +104,14 @@ body {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Stand-in for an image field with nothing uploaded yet — a soft tinted
+   panel + icon, never a broken <img>. */
+.photo-placeholder {
+  background: linear-gradient(135deg, var(--color-stone-100), var(--color-stone-200));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-indigo-500);
 }

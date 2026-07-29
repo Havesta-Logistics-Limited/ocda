@@ -14,13 +14,13 @@ export default async function AdminNewsPage() {
         <h1 className="font-display text-2xl font-bold text-indigo-950">News & Events</h1>
         <Link
           href="/admin/news/new"
-          className="inline-flex items-center gap-1.5 rounded-full bg-gold-500 px-4 py-2 text-sm font-semibold text-indigo-950 hover:bg-gold-400"
+          className="inline-flex items-center gap-1.5 rounded-full bg-gold-500 px-4 py-2 text-sm font-semibold text-white hover:bg-gold-600"
         >
           <Plus className="h-4 w-4" /> New post
         </Link>
       </div>
 
-      <div className="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-stone-50">
+      <div className="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white shadow-sm">
         {posts.length === 0 && <p className="p-6 text-sm text-indigo-900/60">No posts yet.</p>}
         {posts.map((post) => (
           <div key={post.id} className="flex items-center justify-between gap-4 p-5">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
 import Container from "@/components/Container";
 import ContactForm from "@/components/ContactForm";
+import PageHeader from "@/components/PageHeader";
 import { getContent } from "@/lib/content";
 
 export const metadata: Metadata = { title: "Contact" };
@@ -20,23 +21,20 @@ export default async function ContactPage() {
 
   return (
     <>
-      <section className="bg-indigo-950 py-16 text-stone-50 sm:py-20">
-        <Container>
-          <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">{contact.headline}</h1>
-          <p className="mt-4 max-w-xl text-lg text-stone-300">{contact.body}</p>
-        </Container>
-      </section>
+      <PageHeader title={contact.headline} description={contact.body} />
 
       <section className="py-16 sm:py-20">
         <Container className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-6">
+          <div className="space-y-4 rounded-2xl bg-stone-100 p-6">
             <InfoRow icon={<MapPin className="h-5 w-5" />} label="Address" value={contact.address} />
             <InfoRow icon={<Phone className="h-5 w-5" />} label="Phone" value={contact.phone} />
             <InfoRow icon={<Mail className="h-5 w-5" />} label="Email" value={contact.email} />
             <InfoRow icon={<Clock className="h-5 w-5" />} label="Office hours" value={contact.officeHours} />
           </div>
 
-          <ContactForm />
+          <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+            <ContactForm />
+          </div>
         </Container>
       </section>
     </>
@@ -46,7 +44,7 @@ export default async function ContactPage() {
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex gap-4">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-indigo-950 text-gold-400">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold-500 text-white">
         {icon}
       </div>
       <div>

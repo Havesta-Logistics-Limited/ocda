@@ -30,6 +30,23 @@ export const CONTENT_SECTIONS: ContentSection[] = [
     ],
   },
   {
+    key: "home.featureBar",
+    label: "Home — Highlights strip",
+    description: "The row of short highlights overlapping the bottom of the hero.",
+    fields: [
+      {
+        key: "items",
+        label: "Highlights",
+        type: "list",
+        itemLabel: "Highlight",
+        fields: [
+          { key: "title", label: "Title", type: "text" },
+          { key: "description", label: "Description", type: "textarea" },
+        ],
+      },
+    ],
+  },
+  {
     key: "home.stats",
     label: "Home — Quick facts strip",
     description: "The row of numbers under the hero.",
@@ -71,6 +88,40 @@ export const CONTENT_SECTIONS: ContentSection[] = [
         fields: [
           { key: "title", label: "Title", type: "text" },
           { key: "description", label: "Description", type: "textarea" },
+          { key: "imageUrl", label: "Photo", type: "image" },
+        ],
+      },
+    ],
+  },
+  {
+    key: "home.spotlight",
+    label: "Home — Featured quote",
+    description: "One large pull-quote from a leader or long-time member.",
+    fields: [
+      { key: "eyebrow", label: "Small label", type: "text" },
+      { key: "quote", label: "Quote", type: "textarea" },
+      { key: "name", label: "Name", type: "text" },
+      { key: "role", label: "Role", type: "text" },
+      { key: "photoUrl", label: "Photo", type: "image" },
+    ],
+  },
+  {
+    key: "home.testimonials",
+    label: "Home — Testimonials",
+    description: "What members and volunteers say about OCDA.",
+    fields: [
+      { key: "eyebrow", label: "Small label", type: "text" },
+      { key: "headline", label: "Headline", type: "textarea" },
+      {
+        key: "items",
+        label: "Testimonials",
+        type: "list",
+        itemLabel: "Testimonial",
+        fields: [
+          { key: "quote", label: "Quote", type: "textarea" },
+          { key: "name", label: "Name", type: "text" },
+          { key: "role", label: "Role", type: "text" },
+          { key: "photoUrl", label: "Photo", type: "image" },
         ],
       },
     ],
@@ -198,6 +249,15 @@ export const CONTENT_SECTIONS: ContentSection[] = [
       { key: "twitterUrl", label: "X / Twitter link (optional)", type: "text" },
     ],
   },
+  {
+    key: "site.newsletter",
+    label: "Newsletter band",
+    description: "The email signup band shown near the footer.",
+    fields: [
+      { key: "headline", label: "Headline", type: "text" },
+      { key: "body", label: "Supporting sentence", type: "textarea" },
+    ],
+  },
 ];
 
 export function getSection(key: string): ContentSection | undefined {
@@ -217,6 +277,22 @@ export const DEFAULT_CONTENT: Record<string, unknown> = {
     secondaryCtaLabel: "Get involved",
     secondaryCtaHref: "/get-involved",
     imageUrl: "",
+  },
+  "home.featureBar": {
+    items: [
+      {
+        title: "Member-led governance",
+        description: "Every project is decided by residents, not handed down from outside.",
+      },
+      {
+        title: "Transparent reporting",
+        description: "Funds and progress are reported to members on a regular schedule.",
+      },
+      {
+        title: "5 years of local impact",
+        description: "Built through years of steady, community-first work in Ojobeda.",
+      },
+    ],
   },
   "home.stats": {
     items: [
@@ -239,26 +315,64 @@ export const DEFAULT_CONTENT: Record<string, unknown> = {
       {
         title: "Infrastructure",
         description: "Roads, boreholes, and public facilities built and maintained for the long term.",
+        imageUrl: "",
       },
       {
         title: "Education support",
         description: "Scholarships, school supplies, and a community library and learning center.",
+        imageUrl: "",
       },
       {
         title: "Healthcare outreach",
         description: "Free medical camps, essential medicines, and health education for families.",
+        imageUrl: "",
       },
       {
         title: "Economic empowerment",
         description: "Skills training and small loans to help residents start and grow businesses.",
+        imageUrl: "",
       },
       {
         title: "Youth development",
         description: "Sports, mentorship, and leadership programs for young people in the community.",
+        imageUrl: "",
       },
       {
         title: "Cultural heritage",
         description: "Documenting our history and organizing the annual community festival.",
+        imageUrl: "",
+      },
+    ],
+  },
+  "home.spotlight": {
+    eyebrow: "In their words",
+    quote:
+      "OCDA gave us a way to actually get things done as a community — not just talk about what should happen, but plan it, fund it, and see it through together.",
+    name: "Add a real name",
+    role: "OCDA member",
+    photoUrl: "",
+  },
+  "home.testimonials": {
+    eyebrow: "Community voices",
+    headline: "What our members say",
+    items: [
+      {
+        quote: "The borehole project OCDA led means my children no longer walk miles for clean water.",
+        name: "Add a real name",
+        role: "Resident",
+        photoUrl: "",
+      },
+      {
+        quote: "As a volunteer, I've seen firsthand how transparent and organized this association is.",
+        name: "Add a real name",
+        role: "Volunteer",
+        photoUrl: "",
+      },
+      {
+        quote: "The scholarship program changed what was possible for my daughter's education.",
+        name: "Add a real name",
+        role: "Parent",
+        photoUrl: "",
       },
     ],
   },
@@ -351,5 +465,9 @@ export const DEFAULT_CONTENT: Record<string, unknown> = {
     facebookUrl: "",
     instagramUrl: "",
     twitterUrl: "",
+  },
+  "site.newsletter": {
+    headline: "Stay updated with OCDA news",
+    body: "Project updates, upcoming events, and community announcements — straight to your inbox.",
   },
 };

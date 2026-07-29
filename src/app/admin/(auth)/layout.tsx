@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <span className="font-display text-2xl font-extrabold text-indigo-950">OCDA</span>
           <p className="text-sm text-indigo-900/60">Site administration</p>
         </div>
-        <div className="rounded-2xl border border-stone-200 bg-stone-50 p-8">{children}</div>
+        <div className="rounded-2xl border border-stone-200 bg-white shadow-sm p-8">{children}</div>
       </div>
     </div>
   );

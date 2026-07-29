@@ -9,7 +9,7 @@ export default function ChangePasswordForm() {
   const [state, formAction, pending] = useActionState(changePasswordAction, initialState);
 
   return (
-    <form action={formAction} className="space-y-4 rounded-2xl border border-stone-200 bg-stone-50 p-6">
+    <form action={formAction} className="space-y-4 rounded-2xl border border-stone-200 bg-white shadow-sm p-6">
       <div>
         <label htmlFor="currentPassword" className="block text-sm font-medium text-indigo-950">
           Current password
@@ -44,7 +44,7 @@ export default function ChangePasswordForm() {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-full bg-gold-500 px-6 py-2.5 text-sm font-semibold text-indigo-950 hover:bg-gold-400 disabled:opacity-60"
+        className="rounded-full bg-gold-500 px-6 py-2.5 text-sm font-semibold text-white hover:bg-gold-600 disabled:opacity-60"
       >
         {pending ? "Saving…" : "Update password"}
       </button>

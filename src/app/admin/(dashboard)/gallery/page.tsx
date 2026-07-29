@@ -18,7 +18,7 @@ export default async function AdminGalleryPage() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {images.map((image) => (
-          <div key={image.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-stone-50">
+          <div key={image.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
             <div className="relative aspect-square">
               <Image src={image.url} alt={image.caption ?? ""} fill className="object-cover" />
             </div>

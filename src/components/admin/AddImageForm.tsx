@@ -32,7 +32,7 @@ export default function AddImageForm() {
   }, [state, router]);
 
   return (
-    <form action={formAction} className="space-y-4 rounded-2xl border border-stone-200 bg-stone-50 p-5">
+    <form action={formAction} className="space-y-4 rounded-2xl border border-stone-200 bg-white shadow-sm p-5">
       <ImageField label="Photo" value={url} onChange={setUrl} />
       <input type="hidden" name="url" value={url} />
       <div>
@@ -51,7 +51,7 @@ export default function AddImageForm() {
       <button
         type="submit"
         disabled={pending || !url}
-        className="inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-2.5 text-sm font-semibold text-indigo-950 hover:bg-gold-400 disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-2.5 text-sm font-semibold text-white hover:bg-gold-600 disabled:opacity-60"
       >
         {pending ? "Adding…" : "Add to gallery"}
       </button>

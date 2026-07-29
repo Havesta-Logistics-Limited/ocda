@@ -17,9 +17,12 @@ export function SectionHeading({
   return (
     <div className={cn("max-w-2xl", className)}>
       {eyebrow && (
-        <p className="font-display text-sm font-semibold uppercase tracking-widest text-clay-600">{eyebrow}</p>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-500/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-widest text-gold-600">
+          <span className="h-1.5 w-1.5 rounded-full bg-gold-500" />
+          {eyebrow}
+        </span>
       )}
-      <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-indigo-950 sm:text-4xl">
+      <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-indigo-950 sm:text-4xl">
         {headline}
       </h2>
     </div>

@@ -11,7 +11,7 @@ export default async function AdminMessagesPage() {
       <h1 className="font-display text-2xl font-bold text-indigo-950">Messages</h1>
       <p className="mt-1 text-sm text-indigo-900/60">Submissions from the Contact page form.</p>
 
-      <div className="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-stone-50">
+      <div className="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white shadow-sm">
         {messages.length === 0 && <p className="p-6 text-sm text-indigo-900/60">No messages yet.</p>}
         {messages.map((message) => (
           <div key={message.id} className="p-5">
