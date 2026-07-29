@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Stone — cool, warm-adjacent neutral. Deliberately not the cream/oatmeal
+     (#F4F1EA-ish) background that's become an AI-design default. */
+  --color-stone-50: #f4f5f7;
+  --color-stone-100: #e9ebee;
+  --color-stone-200: #d6d9de;
+
+  /* Indigo — the institutional / dark color, inspired by adire (indigo
+     resist-dyed cloth). A hue-driven dark, not near-black. */
+  --color-indigo-950: #131b32;
+  --color-indigo-900: #1b2645;
+  --color-indigo-800: #202b52;
+  --color-indigo-700: #2c3a68;
+  --color-indigo-500: #4d5e97;
+
+  /* Millet gold — primary accent / calls to action. */
+  --color-gold-500: #d9a23d;
+  --color-gold-400: #e6b75f;
+  --color-gold-600: #b6812c;
+
+  /* Laterite — secondary accent, used sparingly (tags, event markers). */
+  --color-clay-500: #bc5b37;
+  --color-clay-600: #9c4a2c;
+
+  /* Utility green — admin UI only (published states etc.), never brand. */
+  --color-moss-500: #4c7a5e;
+
+  --background: var(--color-stone-50);
+  --foreground: var(--color-indigo-950);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-stone-50: var(--color-stone-50);
+  --color-stone-100: var(--color-stone-100);
+  --color-stone-200: var(--color-stone-200);
+
+  --color-indigo-950: var(--color-indigo-950);
+  --color-indigo-900: var(--color-indigo-900);
+  --color-indigo-800: var(--color-indigo-800);
+  --color-indigo-700: var(--color-indigo-700);
+  --color-indigo-500: var(--color-indigo-500);
+
+  --color-gold-400: var(--color-gold-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-gold-600: var(--color-gold-600);
+
+  --color-clay-500: var(--color-clay-500);
+  --color-clay-600: var(--color-clay-600);
+
+  --color-moss-500: var(--color-moss-500);
+
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-public-sans);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--color-gold-500);
+  color: var(--color-indigo-950);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Woven-lattice signature texture — abstracted from adire / aso-oke
+   geometric cloth patterns. Used as a low-opacity background layer. */
+.woven-pattern {
+  background-image: repeating-linear-gradient(
+      45deg,
+      currentColor 0,
+      currentColor 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(-45deg, currentColor 0, currentColor 1px, transparent 1px, transparent 14px);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

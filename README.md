@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OCDA — Ojobeda Community Development Association
 
-## Getting Started
+The website for OCDA: public pages plus a self-service admin dashboard for
+editing every piece of content — no code changes needed after launch.
 
-First, run the development server:
+## Stack
+
+Next.js (App Router) + TypeScript + Tailwind CSS v4 + Prisma + SQLite (dev) /
+Postgres (production) + a small custom admin auth system (bcrypt + signed
+session cookie — no third-party accounts required).
+
+## Local setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env
+# edit .env: set SESSION_SECRET to a random string, e.g.
+#   openssl rand -base64 32
+npm run db:migrate   # creates prisma/dev.db and applies the schema
+npm run dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `/admin` — since no admin account exists yet, you'll land on
+`/admin/setup` to create the first one. After that, sign in at `/admin/login`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Editing content
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Everything is editable from `/admin` once signed in:
 
-## Learn More
+- **Page content** (hero text, mission, programs, values, leadership, Get
+  Involved copy, donate details, contact info, footer) — click into any
+  section from the dashboard; changes go live immediately on save.
+- **News & Events** — `/admin/news`. Add posts, mark them as news or events
+  (events get a date + location), publish/unpublish, delete.
+- **Gallery** — `/admin/gallery`. Add photos by pasting a URL or uploading
+  directly from your computer (stored in the database — no external image
+  host required to get started).
+- **Messages** — `/admin/messages`. Everything submitted through the public
+  Contact form lands here.
+- **Settings** — `/admin/settings`. Change your admin password.
 
-To learn more about Next.js, take a look at the following resources:
+Images can be added either as an uploaded file or a pasted URL anywhere
+you see an image field (hero photo, team photos, post covers, gallery).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Content model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Structured, database-backed — see `prisma/schema.prisma`:
 
-## Deploy on Vercel
+- `SiteContent` — one JSON row per editable block (schema + draft copy in
+  `src/lib/content-schema.ts`, which also drives the admin editor forms).
+- `Post` — news posts and events (`kind: "news" | "event"`).
+- `GalleryImage`, `Upload` (uploaded file bytes), `ContactMessage`,
+  `AdminUser`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploying
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app runs anywhere Next.js runs. For a serverless host like Vercel, SQLite
+won't persist between requests, so switch to Postgres first:
+
+1. Create a free Postgres database (e.g. [Neon](https://neon.tech)).
+2. In `prisma/schema.prisma`, change the datasource:
+   ```prisma
+   datasource db {
+     provider = "postgresql"
+     url      = env("DATABASE_URL")
+   }
+   ```
+3. Set `DATABASE_URL` (your Postgres connection string) and `SESSION_SECRET`
+   as environment variables on the host.
+4. Set the build command to `prisma migrate deploy && next build` (or run
+   `npm run db:deploy` once as part of your deploy pipeline) so the schema is
+   applied to the new database.
+5. Deploy. Visit `/admin/setup` once, live, to create your admin account —
+   there is no default/seeded password anywhere in this repo.
+
+## Security notes
+
+- No admin credentials are ever committed to this repo. The first account is
+  created interactively at `/admin/setup`, which locks itself once an admin
+  exists.
+- Admin sessions are signed, `httpOnly` cookies (14-day expiry).
+- The contact form has a honeypot field and server-side validation.
+- Image uploads are limited to 5MB and common image MIME types, and only
+  admins can upload.
