@@ -17,6 +17,7 @@ import NewsletterForm from "@/components/NewsletterForm";
 import { getContent } from "@/lib/content";
 import { db } from "@/lib/db";
 import { formatEventDate } from "@/lib/format";
+import { getYouTubeId } from "@/lib/youtube";
 
 type Hero = {
   eyebrow: string;
@@ -63,12 +64,21 @@ export default async function HomePage() {
       db.post.findMany({ where: { published: true }, orderBy: { createdAt: "desc" }, take: 3 }),
     ]);
 
+  const youtubeId = hero.backgroundVideoUrl ? getYouTubeId(hero.backgroundVideoUrl) : null;
+
   return (
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-indigo-950 pb-28 pt-16 text-white sm:pb-32 sm:pt-24">
-        <div className="absolute inset-0">
-          {hero.backgroundVideoUrl ? (
+        <div className="absolute inset-0 overflow-hidden">
+          {youtubeId ? (
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&playsinline=1`}
+              title=""
+              allow="autoplay; encrypted-media"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[100vh] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2 opacity-60"
+            />
+          ) : hero.backgroundVideoUrl ? (
             <video
               src={hero.backgroundVideoUrl}
               className="h-full w-full object-cover opacity-60"
