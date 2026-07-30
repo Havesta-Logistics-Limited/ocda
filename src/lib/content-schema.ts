@@ -483,6 +483,10 @@ export const DEFAULT_CONTENT: Record<string, unknown> = {
     logoUrl: "",
     faviconUrl: "",
   },
+  "site.maintenance": {
+    enabled: false,
+    message: "We're currently making improvements to the site. Please check back soon.",
+  },
   "site.footer": {
     tagline: "Building a stronger, more united Ojobeda.",
     body: "OCDA invests in the infrastructure, education, and opportunity our community needs to thrive.",
