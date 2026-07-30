@@ -2,14 +2,23 @@
 // Production (Netlify) uses Postgres via Netlify DB. Local dev needs a
 // Postgres DATABASE_URL too now — point .env at the same Netlify DB
 // connection string, or run Postgres locally.
+//
+// DATABASE_URL must be the pooled (PgBouncer) connection — serverless
+// functions open a fresh connection per invocation, and Neon's direct
+// connection has a low concurrent-connection cap that this blows through
+// under any real traffic, causing requests to queue up and get slower the
+// more of them land close together. DIRECT_URL is the unpooled connection,
+// used only for `prisma migrate` (PgBouncer's transaction pooling mode
+// doesn't support the session-level features migrations need).
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // A single admin (or a handful of staff) who can edit the site.
