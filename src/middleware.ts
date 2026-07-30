@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { db } from "@/lib/db";
 
-export default async function middleware(request: NextRequest) {
-  const row = await db.siteContent.findUnique({ where: { key: "site.maintenance" } });
-  const enabled = row ? (JSON.parse(row.data) as { enabled?: boolean }).enabled : false;
-
-  if (enabled) {
-    return NextResponse.rewrite(new URL("/maintenance", request.url));
-  }
-  return NextResponse.next();
+// Kept deliberately dependency-free (no Prisma) — Netlify's Next.js plugin
+// rejects native binary addons (Prisma's query engine) inside Middleware,
+// regardless of the configured runtime. The actual maintenance-mode check
+// happens in the root layout, a normal server function, using this header
+// to know the current path.
+export default function middleware(request: NextRequest) {
+  const headers = new Headers(request.headers);
+  headers.set("x-pathname", request.nextUrl.pathname);
+  return NextResponse.next({ request: { headers } });
 }
 
 export const config = {
-  runtime: "nodejs",
-  matcher: ["/((?!admin|api|maintenance|icon|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"],
 };

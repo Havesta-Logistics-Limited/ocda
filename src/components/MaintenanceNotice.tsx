@@ -1,9 +1,6 @@
 import { Wrench } from "lucide-react";
-import { getContent } from "@/lib/content";
 
-export default async function MaintenancePage() {
-  const { message } = await getContent<{ message: string }>("site.maintenance");
-
+export default function MaintenanceNotice({ message }: { message: string }) {
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center px-6 py-20 text-center">
       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold-500/10 text-gold-600">

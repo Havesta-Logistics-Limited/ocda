@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { headers } from "next/headers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import MaintenanceNotice from "@/components/MaintenanceNotice";
 import { getContent } from "@/lib/content";
 import "./globals.css";
 
@@ -30,11 +32,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [contact, footer, branding] = await Promise.all([
+  const [contact, footer, branding, maintenance, pathname] = await Promise.all([
     getContent<{ phone: string; email: string }>("contact.info"),
     getContent<{ facebookUrl?: string; instagramUrl?: string; twitterUrl?: string }>("site.footer"),
     getContent<{ logoUrl?: string }>("site.branding"),
+    getContent<{ enabled: boolean; message: string }>("site.maintenance"),
+    headers().then((h) => h.get("x-pathname") ?? ""),
   ]);
+
+  const showMaintenance = maintenance.enabled && !pathname.startsWith("/admin");
 
   return (
     <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
@@ -49,7 +55,9 @@ export default async function RootLayout({
             twitterUrl: footer.twitterUrl,
           }}
         />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          {showMaintenance ? <MaintenanceNotice message={maintenance.message} /> : children}
+        </main>
         <Footer />
       </body>
     </html>
