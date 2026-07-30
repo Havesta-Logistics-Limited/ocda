@@ -5,18 +5,20 @@ editing every piece of content — no code changes needed after launch.
 
 ## Stack
 
-Next.js (App Router) + TypeScript + Tailwind CSS v4 + Prisma + SQLite (dev) /
-Postgres (production) + a small custom admin auth system (bcrypt + signed
-session cookie — no third-party accounts required).
+Next.js (App Router) + TypeScript + Tailwind CSS v4 + Prisma + Postgres + a
+small custom admin auth system (bcrypt + signed session cookie — no
+third-party accounts required).
 
 ## Local setup
 
 ```bash
 npm install
 cp .env.example .env
-# edit .env: set SESSION_SECRET to a random string, e.g.
-#   openssl rand -base64 32
-npm run db:migrate   # creates prisma/dev.db and applies the schema
+# edit .env:
+#  - DATABASE_URL: a Postgres connection string (Netlify DB, Neon, Supabase,
+#    or local Postgres all work)
+#  - SESSION_SECRET: a random string, e.g. `openssl rand -base64 32`
+npm run db:migrate   # applies the schema to your database
 npm run dev          # http://localhost:3000
 ```
 
@@ -54,23 +56,15 @@ Structured, database-backed — see `prisma/schema.prisma`:
 
 ## Deploying
 
-The app runs anywhere Next.js runs. For a serverless host like Vercel, SQLite
-won't persist between requests, so switch to Postgres first:
+Deployed on Netlify (see `netlify.toml` — its build command runs
+`prisma migrate deploy` before `next build`, so the schema is always applied
+on deploy):
 
-1. Create a free Postgres database (e.g. [Neon](https://neon.tech)).
-2. In `prisma/schema.prisma`, change the datasource:
-   ```prisma
-   datasource db {
-     provider = "postgresql"
-     url      = env("DATABASE_URL")
-   }
-   ```
-3. Set `DATABASE_URL` (your Postgres connection string) and `SESSION_SECRET`
-   as environment variables on the host.
-4. Set the build command to `prisma migrate deploy && next build` (or run
-   `npm run db:deploy` once as part of your deploy pipeline) so the schema is
-   applied to the new database.
-5. Deploy. Visit `/admin/setup` once, live, to create your admin account —
+1. Provision a Postgres database (Netlify DB, backed by Neon, is the
+   easiest — one click from the site's Database tab).
+2. Set `DATABASE_URL` (the database's connection string) and
+   `SESSION_SECRET` as environment variables on the site.
+3. Deploy. Visit `/admin/setup` once, live, to create your admin account —
    there is no default/seeded password anywhere in this repo.
 
 ## Security notes

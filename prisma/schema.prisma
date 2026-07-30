@@ -1,15 +1,14 @@
 // Prisma schema for the OCDA website.
-// Local dev uses SQLite (zero setup). For a serverless production host
-// (e.g. Vercel), switch `provider` below to "postgresql", point
-// DATABASE_URL at a hosted Postgres instance (Neon works well on the free
-// tier), then run `npx prisma migrate dev` again — see README.md.
+// Production (Netlify) uses Postgres via Netlify DB. Local dev needs a
+// Postgres DATABASE_URL too now — point .env at the same Netlify DB
+// connection string, or run Postgres locally.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
