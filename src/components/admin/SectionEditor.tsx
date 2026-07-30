@@ -6,6 +6,7 @@ import { Plus, Trash2 } from "lucide-react";
 import type { ContentSection, SimpleField } from "@/lib/content-schema";
 import { saveSectionContent } from "@/lib/actions/content";
 import ImageField from "@/components/admin/ImageField";
+import VideoField from "@/components/admin/VideoField";
 
 type ListItem = Record<string, string>;
 type FieldValue = string | ListItem[];
@@ -85,6 +86,9 @@ function SimpleFieldEditor({
 }) {
   if (field.type === "image") {
     return <ImageField label={field.label} value={value} onChange={onChange} />;
+  }
+  if (field.type === "video") {
+    return <VideoField label={field.label} value={value} onChange={onChange} />;
   }
 
   return (

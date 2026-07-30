@@ -4,7 +4,12 @@
 // tables (see Post / GalleryImage in prisma/schema.prisma) because they're
 // collections the admin adds to over time, not single blocks.
 
-export type SimpleField = { key: string; label: string; type: "text" | "textarea" | "image"; placeholder?: string };
+export type SimpleField = {
+  key: string;
+  label: string;
+  type: "text" | "textarea" | "image" | "video";
+  placeholder?: string;
+};
 
 export type ContentSection = {
   key: string;
@@ -26,7 +31,12 @@ export const CONTENT_SECTIONS: ContentSection[] = [
       { key: "primaryCtaHref", label: "Primary button link", type: "text" },
       { key: "secondaryCtaLabel", label: "Secondary button label", type: "text" },
       { key: "secondaryCtaHref", label: "Secondary button link", type: "text" },
-      { key: "imageUrl", label: "Hero image", type: "image" },
+      { key: "imageUrl", label: "Hero background image", type: "image" },
+      {
+        key: "backgroundVideoUrl",
+        label: "Hero background video (optional — plays instead of the image when set)",
+        type: "video",
+      },
     ],
   },
   {
@@ -277,6 +287,7 @@ export const DEFAULT_CONTENT: Record<string, unknown> = {
     secondaryCtaLabel: "Get involved",
     secondaryCtaHref: "/get-involved",
     imageUrl: "",
+    backgroundVideoUrl: "",
   },
   "home.featureBar": {
     items: [

@@ -27,6 +27,7 @@ type Hero = {
   secondaryCtaLabel: string;
   secondaryCtaHref: string;
   imageUrl?: string;
+  backgroundVideoUrl?: string;
 };
 type FeatureBar = { items: { title: string; description: string }[] };
 type Stats = { items: { value: string; label: string }[] };
@@ -67,7 +68,18 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-indigo-950 pb-28 pt-16 text-white sm:pb-32 sm:pt-24">
         <div className="absolute inset-0">
-          <Photo src={hero.imageUrl} alt="" className="opacity-60" icon={Users} />
+          {hero.backgroundVideoUrl ? (
+            <video
+              src={hero.backgroundVideoUrl}
+              className="h-full w-full object-cover opacity-60"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          ) : (
+            <Photo src={hero.imageUrl} alt="" className="opacity-60" icon={Users} />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-950/70 to-indigo-950/30" />
         </div>
 
