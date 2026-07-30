@@ -2,6 +2,9 @@
 
 import { useRef, useState } from "react";
 
+const MAX_UPLOAD_MB = 4;
+const MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024;
+
 export default function VideoField({
   label,
   value,
@@ -16,8 +19,12 @@ export default function VideoField({
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleFile(file: File) {
-    setUploading(true);
     setError(null);
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setError(`Video is too large for direct upload — keep it under ${MAX_UPLOAD_MB}MB, or paste a hosted URL instead.`);
+      return;
+    }
+    setUploading(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -79,7 +86,10 @@ export default function VideoField({
               </button>
             )}
           </div>
-          <p className="text-xs text-indigo-900/50">MP4 or WebM, up to 30MB. Keep it short — it loops silently.</p>
+          <p className="text-xs text-indigo-900/50">
+            MP4 or WebM, up to {MAX_UPLOAD_MB}MB — keep it short, it loops silently. For anything bigger, host it
+            elsewhere and paste the URL above instead.
+          </p>
           {error && <p className="text-xs font-medium text-clay-600">{error}</p>}
         </div>
       </div>

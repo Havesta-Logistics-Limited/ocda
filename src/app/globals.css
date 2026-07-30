@@ -115,3 +115,66 @@ body {
   justify-content: center;
   color: var(--color-indigo-500);
 }
+
+/* Maintenance page signature: a road being paved, left to right — the
+   literal thing OCDA builds, standing in for "we're building on this
+   page too." One slow, quiet loop; nothing else on the page moves. */
+.maintenance-road {
+  position: relative;
+}
+
+.maintenance-marker {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 7px;
+  width: 7px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: var(--color-gold-400);
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--color-gold-400) 70%, transparent);
+  animation: maintenance-pave 3.2s ease-in-out infinite;
+}
+
+.maintenance-marker::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 100%;
+  height: 1px;
+  width: 0;
+  background: var(--color-gold-500);
+  animation: maintenance-trail 3.2s ease-in-out infinite;
+}
+
+@keyframes maintenance-pave {
+  0% {
+    left: 0%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 0%;
+  }
+}
+
+@keyframes maintenance-trail {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 16rem;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-marker,
+  .maintenance-marker::before {
+    animation: none;
+    left: 40%;
+  }
+}

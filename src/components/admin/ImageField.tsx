@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 
+const MAX_UPLOAD_MB = 4;
+const MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024;
+
 export default function ImageField({
   label,
   value,
@@ -17,8 +20,12 @@ export default function ImageField({
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleFile(file: File) {
-    setUploading(true);
     setError(null);
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setError(`Image is too large — keep it under ${MAX_UPLOAD_MB}MB.`);
+      return;
+    }
+    setUploading(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
