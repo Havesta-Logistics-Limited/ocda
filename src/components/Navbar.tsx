@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -24,7 +25,7 @@ type TopBarInfo = {
   twitterUrl?: string;
 };
 
-export default function Navbar({ topBar }: { topBar?: TopBarInfo }) {
+export default function Navbar({ topBar, logoUrl }: { topBar?: TopBarInfo; logoUrl?: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -71,10 +72,16 @@ export default function Navbar({ topBar }: { topBar?: TopBarInfo }) {
       <div className="border-b border-stone-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-500 font-display text-base font-extrabold text-white">
-              O
-            </span>
-            <span className="font-display text-lg font-extrabold tracking-tight text-indigo-950">OCDA</span>
+            {logoUrl ? (
+              <Image src={logoUrl} alt="OCDA" width={144} height={36} className="h-9 w-auto" priority />
+            ) : (
+              <>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-500 font-display text-base font-extrabold text-white">
+                  O
+                </span>
+                <span className="font-display text-lg font-extrabold tracking-tight text-indigo-950">OCDA</span>
+              </>
+            )}
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">

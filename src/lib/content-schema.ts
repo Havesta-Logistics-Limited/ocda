@@ -248,6 +248,15 @@ export const CONTENT_SECTIONS: ContentSection[] = [
     ],
   },
   {
+    key: "site.branding",
+    label: "Branding",
+    description: "Logo shown in the header and the browser tab icon (favicon).",
+    fields: [
+      { key: "logoUrl", label: "Logo (shown in the header — leave empty to use the text logo)", type: "image" },
+      { key: "faviconUrl", label: "Favicon (browser tab icon — square image works best)", type: "image" },
+    ],
+  },
+  {
     key: "site.footer",
     label: "Footer",
     description: "Org blurb and socials shown in the footer.",
@@ -469,6 +478,10 @@ export const DEFAULT_CONTENT: Record<string, unknown> = {
     phone: "Add your phone number",
     email: "Add your email address",
     officeHours: "Mon–Fri, 9am–4pm",
+  },
+  "site.branding": {
+    logoUrl: "",
+    faviconUrl: "",
   },
   "site.footer": {
     tagline: "Building a stronger, more united Ojobeda.",

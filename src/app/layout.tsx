@@ -30,15 +30,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [contact, footer] = await Promise.all([
+  const [contact, footer, branding] = await Promise.all([
     getContent<{ phone: string; email: string }>("contact.info"),
     getContent<{ facebookUrl?: string; instagramUrl?: string; twitterUrl?: string }>("site.footer"),
+    getContent<{ logoUrl?: string }>("site.branding"),
   ]);
 
   return (
     <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-stone-50 text-indigo-950">
         <Navbar
+          logoUrl={branding.logoUrl}
           topBar={{
             phone: contact.phone,
             email: contact.email,
