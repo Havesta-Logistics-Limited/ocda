@@ -32,20 +32,30 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [contact, footer, branding, maintenance, pathname] = await Promise.all([
+  const pathname = (await headers()).get("x-pathname") ?? "";
+
+  // The admin dashboard has its own sidebar/chrome and never shows the
+  // public navbar, footer, or maintenance notice — skip the four DB round
+  // trips those need entirely, rather than paying for them on every click.
+  if (pathname.startsWith("/admin")) {
+    return (
+      <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
+        <body className="min-h-full bg-stone-50 text-indigo-950">{children}</body>
+      </html>
+    );
+  }
+
+  const [contact, footer, branding, maintenance] = await Promise.all([
     getContent<{ phone: string; email: string }>("contact.info"),
     getContent<{ facebookUrl?: string; instagramUrl?: string; twitterUrl?: string }>("site.footer"),
     getContent<{ logoUrl?: string }>("site.branding"),
     getContent<{ enabled: boolean; message: string }>("site.maintenance"),
-    headers().then((h) => h.get("x-pathname") ?? ""),
   ]);
-
-  const showMaintenance = maintenance.enabled && !pathname.startsWith("/admin");
 
   return (
     <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-stone-50 text-indigo-950">
-        {showMaintenance ? (
+        {maintenance.enabled ? (
           <MaintenanceNotice message={maintenance.message} logoUrl={branding.logoUrl} />
         ) : (
           <>
